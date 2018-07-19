@@ -3,7 +3,7 @@
 # How to set up the repo
 1. Clone this repo into a directory of your choice.
 2. In that same directory, create a virtual environment with `virtualenv .env`. Then activate it with `source .env/bin/activate`.
-3. Now that we're inside our virtual environment, install the requirements with `pip install requirements.txt`. (Note: You will probably have to install other libraries to get the code running, so just address the errors as they arise.)
+3. Now that we're inside our virtual environment, install the requirements with `pip install -r requirements.txt`. (Note: You will probably have to install other libraries to get the code running, so just address the errors as they arise.)
 
 # How to actually run things
 There are two main parts of our pipeline, 1. getting a clean mask to extract a body from an image and 2. warping the model's body into the user's. We are following this paper: https://link.springer.com/content/pdf/10.1007%2Fs41095-017-0084-6.pdf.
