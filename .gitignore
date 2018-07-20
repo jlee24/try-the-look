@@ -1,5 +1,7 @@
 salience_model
 webapp/dummy.jpg
+grabcut/bboxes_tight/
+grabcut/bboxes/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
