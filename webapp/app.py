@@ -23,9 +23,7 @@ def try_the_look():
 
   file = request.files['file']
   np_img = np.asarray(Image.open(file))
-  # img = np.fromstring(file.read(), dtype=np.uint8)
   print(type(np_img), np_img.shape)
-  # print(np_img)
 
   to_save = Image.fromarray(np_img)
   to_save.save('dummy.jpg')
