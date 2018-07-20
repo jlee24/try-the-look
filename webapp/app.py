@@ -5,6 +5,7 @@ from PIL import Image
 from flask import Flask, request, jsonify, send_file
 
 from grabcut_code import grabcut
+from cpm import model
 
 app = Flask(__name__)
 
@@ -22,14 +23,18 @@ def try_the_look():
         }), 400
 
     file = request.files['file']
-    np_img = np.asarray(Image.open(file))
+    np_img = np.asarray(Image.open('yash.jpg'))
     print(type(np_img), np_img.shape)
 
     grabcut.yolo(np_img)
+    # to_save = Image.fromarray(np_img)
+    # to_save.save('dummy.jpg')
+    # model.modelRun('padded.jpg')
 
-    to_save = Image.fromarray(np_img)
-    to_save.save('dummy.jpg')
-    return send_file('../padded.jpg', mimetype='image/gif')
+
+    # to_save = Image.fromarray(np_img)
+    # to_save.save('dummy.jpg')
+    return send_file('../masked.jpg', mimetype='image/gif')
 
 
 if __name__ == '__main__':

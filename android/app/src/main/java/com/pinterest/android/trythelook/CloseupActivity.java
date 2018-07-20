@@ -37,7 +37,7 @@ public class CloseupActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 101;
 
     // TODO: remember to have ngrok running
-    private static final String BACKEND_BASE_URL = "http://97dd49b3.ngrok.io";
+    private static final String BACKEND_BASE_URL = "http://dbc66d0e.ngrok.io";
     public static final String USER_IMG_FILE = "image.jpg";
 
     private File pathToUserPhoto;
