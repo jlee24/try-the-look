@@ -1,6 +1,9 @@
 package com.pinterest.android.trythelook.api;
 
+import java.io.File;
+
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -14,6 +17,6 @@ public interface TryTheLookService {
 
     @Multipart
     @POST("api/v1/try_look")
-    Call<String> tryTheLook(@Part MultipartBody.Part img);
+    Call<ResponseBody> tryTheLook(@Part MultipartBody.Part img);
 
 }
