@@ -215,20 +215,11 @@ def get_user_polyline(img):
     return selector.points
 
 def save_origin_grabcut(img, bbox):
-    mask_img = cv2.imread("Saliency")
-    mask_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    mask = np.zeros(mask_img.shape[:2],np.uint8)
-    bgdModel = np.zeros((1,65),np.float64)
-    fgdModel = np.zeros((1,65),np.float64)
-    # rect = (50,0,280,500)
-    # rect = (150,110,300,710) //this works pretty good for girl1.jpg 
-    # -----replace this part----
-    rect = tuple([int(x) for x in bbox])
-    cv2.grabCut(img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
-    mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
-    img = img*mask2[:,:,np.newaxis]
-    plt.imshow(img),plt.show()
-    # ----replace this part-----
+    mask = cv2.imread("Saliency.png", 0)
+    res = cv2.bitwise_and(img,img,mask = mask)
+    res = cv2.cvtColor(res, cv2.COLOR_RGB2BGR)
+    cv2.imwrite("masked.jpg", res)
+    plt.imshow(res), plt.show()
     
 # get_user_selection
 # Returns coordinates of the bounding box the user draws on the given image
