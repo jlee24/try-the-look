@@ -18,9 +18,11 @@ import com.pinterest.android.trythelook.api.TryTheLookService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -78,6 +80,10 @@ public class CloseupActivity extends AppCompatActivity {
     private void postUserImg(MultipartBody.Part img) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BACKEND_BASE_URL)
+                .client(new OkHttpClient.Builder()
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

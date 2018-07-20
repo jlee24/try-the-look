@@ -25,11 +25,11 @@ def try_the_look():
     np_img = np.asarray(Image.open(file))
     print(type(np_img), np_img.shape)
 
-    np_img_to_send = grabcut.yolo(np_img)
+    grabcut.yolo(np_img)
 
     to_save = Image.fromarray(np_img)
     to_save.save('dummy.jpg')
-    return send_file('dummy.jpg', mimetype='image/gif')
+    return send_file('../padded.jpg', mimetype='image/gif')
 
 
 if __name__ == '__main__':
