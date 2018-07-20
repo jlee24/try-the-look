@@ -219,7 +219,36 @@ def save_origin_grabcut(img, bbox):
     res = cv2.bitwise_and(img,img,mask = mask)
     res = cv2.cvtColor(res, cv2.COLOR_RGB2BGR)
     cv2.imwrite("masked.jpg", res)
-    plt.imshow(res), plt.show()
+    
+    img = res
+    h,w = img.shape[:2]
+    aspect_ratio = float(w) / h
+    if aspect_ratio < 1: # vertical
+        #new_h = 534
+        #new_dims = [int(aspect_ratio * 534), 534]
+        #img = cv2.resize(img, tuple(new_dims))
+        new_h = 400 # magic constants ik sorry
+        new_w = int(aspect_ratio * 400)
+        resized = cv2.resize(img, (new_w, new_h))
+        resized = cv2.cvtColor(resized, cv2.COLOR_RGB2BGR)
+        cv2.imwrite("resized.png", resized)
+
+        h_r, w_r = resized.shape[:2]
+        pad_amount = int((534 - w_r) / 2)
+        pad_arr = np.zeros((new_h, pad_amount,  3))
+        padded = np.concatenate((pad_arr, resized, pad_arr), axis=1)
+        cv2.imwrite("padded.jpg", padded)
+
+    #h,w = img.shape
+    #print(h,w)
+    #aspect_ratio = float(w)/h
+    #if aspect_ratio < 1:
+    #    new_h = 534
+    #    new_dims = [aspect_ratio * 534, 534]
+    #    resized = cv2.resize(img, new_dims)
+    
+
+    plt.imshow(img), plt.show()
     
 # get_user_selection
 # Returns coordinates of the bounding box the user draws on the given image
@@ -738,11 +767,48 @@ def grabcut(img, bbox, image_name, user_interaction=False, num_iterations=10,
 def main():
     args = get_args()
     img = load_image(args.image_file)
+     
+    h,w = img.shape[:2]
+    print(h,w)
+    aspect_ratio = float(w)/h
+    if aspect_ratio < 1: # vertical
+        new_h = 534
+        new_w = int(aspect_ratio *534)
+        new_dims = [new_w, 534]
+        resized = cv2.resize(img, tuple(new_dims))
+        #new_h = 400 # magic constants ik sorry
+        #new_w = int(aspect_ratio * 400)
+        #resized = cv2.resize(img, (new_w, new_h))
+        resized = cv2.cvtColor(resized, cv2.COLOR_RGB2BGR)
+        cv2.imwrite("resized.jpg", resized)
 
-    if args.bbox:
-        bbox = [int(p) for p in args.bbox]
-    else:
-        bbox = get_user_selection(img)
+        #h_r, w_r = resized.shape[:2]
+        #pad_amount = int((534 - w_r) / 2)
+        #pad_arr = np.zeros((new_h, pad_amount,  3))
+        #padded = np.concatenate((pad_arr, resized, pad_arr), axis=1)
+        #cv2.imwrite("padded.png", padded)
+
+	#img = padded
+        #bbox = [pad_amount, 1, pad_amount + w_r, h_r-1]
+        bbox = [int(new_w/3), 1, 2*int(new_w/3), 534-1]
+    else: # horizontal
+        new_w = 400
+        new_dims = [400, int(1 / aspect_ratio * 400)]
+        resized = cv2.resize(img, tuple(new_dims))
+        resized = cv2.cvtColor(resized, cv2.COLOR_RGB2BGR)
+        cv2.imwrite("resized.png", resized) 
+	bbox = [100, 1, 300, 534-1]
+    
+    img = resized
+
+    #if args.bbox:
+    #    bbox = [int(p) for p in args.bbox]
+    #else:
+        #if aspect_ratio < 1: # vertical
+            # pad then use orig image as the bounding box
+    #    bbox = get_user_selection(img)
+    #print(bbox)
+        
     
     print '----------------------------------------------'
     print 'Running GrabCut with the Following parameters:'
